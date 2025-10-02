@@ -3,7 +3,7 @@ import Notes from '../models/Notes.js';
 import { body, validationResult } from 'express-validator';
 const router = Router();
 
-
+// Route to create a note using post "api/notes/" doesnt require authentication
 router.post('/',[
      body('title',"Enter a Valid Title").isLength({min:5}),
      body('description',"Enter a valid description").isLength({min:10}),
