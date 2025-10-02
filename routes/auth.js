@@ -1,10 +1,10 @@
 import { Router } from 'express';
 import User from '../models/User.js';
 import { body, validationResult } from 'express-validator';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
 const router = Router();
-
-
-
+const JWT_SECRET = "parjwalcode$forinotebook";
 // Create a user using post "api/auth/createUser" doesnt require auth
 
 router.post('/createUser',[
@@ -26,18 +26,35 @@ router.post('/createUser',[
      if(user){
         return res.status(400).json({error:"Sorry a user with this email already exists"});
      }
+
+     // To create password hash //
+
+     const salt = await bcrypt.genSalt(10);
+     const secPass = await bcrypt.hash(req.body.password,salt);
+
      user = await User.create({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: secPass
     })
+
+    // Object to be sent in JWT //
+    const data = {
+        user:{
+            id:user.id
+        }
+    }
+    const authToken = jwt.sign(data, JWT_SECRET);
+    // console.log(jwt_data);
+    //--------------------------------//
     
     // .then(user=>res.json(user))
     // // res.send(req.body);
     // .catch(err=>{console.log(err);
     // res.json({error:"Please enter a unique value for email",message: err.message})});
     //console.log(req.body);
-    res.json(user)
+    // res.json(user)
+    res.json({authToken});
 }
 catch(error){
     console.error(error.message);
