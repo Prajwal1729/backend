@@ -22,7 +22,7 @@ router.post('/',[
     //  res.send(req.body);
     .catch(err=>{console.log(err);
     res.json({error:"Please enter a unique tag",message: err.message})});
-    console.log(req.body)
+    // console.log(req.body)
 
 })
 
