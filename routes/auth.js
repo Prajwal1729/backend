@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import { body, validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import fetchuser from '../middleware/fetchuser.js'; 
 const router = Router();
 const JWT_SECRET = "parjwalcode$forinotebook";
 // Create a user using post "api/auth/createUser" doesnt require auth
@@ -102,6 +103,24 @@ router.post('/login',[
         return res.status(500).send("Internal server error occured.")
     }
 
+});
+
+//----------------------------------------------------------------//
+
+
+// get loggedin user details using post "api/auth/getuser" login required //
+
+router.post('/getuser',fetchuser,async (req,res)=>{
+
+try {
+    let userId = req.user.id; // get user from jwt token and add id to req object.
+    const user = await User.findById(userId).select("-password");
+    res.send(user);
+} catch (error) {
+    console.error(error.message);
+    return res.status(500).send("Internal server error occured.")
+    
+}
 });
 
 //----------------------------------------------------------------//
