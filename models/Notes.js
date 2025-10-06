@@ -6,6 +6,7 @@ const {Schema} = mongoose;
 
 
 const notesSchema = new Schema({
+  // User information //
   user:{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'user'
