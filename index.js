@@ -1,10 +1,13 @@
 import connectTOMongo from './db.js';
 import express from 'express';
-
+import cors from 'cors';
 connectTOMongo();
 
 const app = express();
 const port = 3001;
+
+app.use(cors());
+
 
 // app.get('/', (req, res) => {
 //   res.send('Hello Prajwal!');
@@ -27,5 +30,5 @@ import notesRoutes from './routes/notes.js'
 app.use('/api/notes',notesRoutes);
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`inotebook backend listening at http://localhost:${port}`);
 });

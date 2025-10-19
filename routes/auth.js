@@ -55,11 +55,12 @@ router.post('/createUser',[
     // res.json({error:"Please enter a unique value for email",message: err.message})});
     //console.log(req.body);
     // res.json(user)
-    res.json({authToken});
+     res.json({success: true, authTokenLogin: authToken});
+    res.status(200).send({message:"User created successfully"});
 }
 catch(error){
     console.error(error.message);
-    res.status(500).send("nternal server error occured.");
+    res.status(500).send("Internal server error occured.");
 }
 
 });
@@ -96,7 +97,7 @@ router.post('/login',[
         }
 
         const authTokenLogin = jwt.sign(payload,JWT_SECRET);
-        res.json({authTokenLogin});
+        res.json({success: true, authTokenLogin: authTokenLogin});
         
     } catch (error) {
         console.error(error.message);
